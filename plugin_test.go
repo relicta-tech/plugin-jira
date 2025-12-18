@@ -96,18 +96,18 @@ func TestValidate(t *testing.T) {
 		{
 			name: "valid_full_config",
 			config: map[string]any{
-				"base_url":           "https://company.atlassian.net",
-				"project_key":        "PROJ",
-				"username":           "user@example.com",
-				"token":              "secret-token",
-				"version_name":       "v1.0.0",
-				"create_version":     true,
-				"release_version":    true,
-				"transition_issues":  true,
-				"transition_name":    "Done",
-				"add_comment":        true,
-				"comment_template":   "Released in {version}",
-				"associate_issues":   true,
+				"base_url":          "https://company.atlassian.net",
+				"project_key":       "PROJ",
+				"username":          "user@example.com",
+				"token":             "secret-token",
+				"version_name":      "v1.0.0",
+				"create_version":    true,
+				"release_version":   true,
+				"transition_issues": true,
+				"transition_name":   "Done",
+				"add_comment":       true,
+				"comment_template":  "Released in {version}",
+				"associate_issues":  true,
 			},
 			expectValid: true,
 		},
@@ -162,8 +162,8 @@ func TestValidate(t *testing.T) {
 		{
 			name: "transition_issues_without_transition_name",
 			config: map[string]any{
-				"base_url":         "https://company.atlassian.net",
-				"project_key":      "PROJ",
+				"base_url":          "https://company.atlassian.net",
+				"project_key":       "PROJ",
 				"transition_issues": true,
 			},
 			envToken:     "test-token",
@@ -318,8 +318,8 @@ func TestParseConfig(t *testing.T) {
 				BaseURL:         "https://jira.example.com",
 				ProjectKey:      "TEST",
 				CreateVersion:   false,
-				ReleaseVersion:  true,  // default
-				AssociateIssues: true,  // default
+				ReleaseVersion:  true, // default
+				AssociateIssues: true, // default
 				AddComment:      true,
 				CommentTemplate: "Released!",
 			},
@@ -643,7 +643,7 @@ func TestExtractIssueKeys(t *testing.T) {
 		},
 		{
 			name: "converts_to_uppercase",
-			cfg:  &Config{
+			cfg: &Config{
 				// Use a case-insensitive pattern to match lowercase
 				IssuePattern: `(?i)[A-Z][A-Z0-9]*-\d+`,
 			},
@@ -655,9 +655,9 @@ func TestExtractIssueKeys(t *testing.T) {
 			expectedKeys: []string{"PROJ-100"},
 		},
 		{
-			name: "nil_changes_returns_empty",
-			cfg:  &Config{},
-			changes: nil,
+			name:         "nil_changes_returns_empty",
+			cfg:          &Config{},
+			changes:      nil,
 			expectedKeys: []string{},
 		},
 		{
@@ -724,10 +724,10 @@ func TestBuildComment(t *testing.T) {
 	p := &JiraPlugin{}
 
 	tests := []struct {
-		name       string
-		template   string
-		context    plugin.ReleaseContext
-		expected   string
+		name     string
+		template string
+		context  plugin.ReleaseContext
+		expected string
 	}{
 		{
 			name:     "version_placeholder",
@@ -799,9 +799,9 @@ func TestBuildComment(t *testing.T) {
 // TestValidateBaseURL tests URL validation for SSRF protection.
 func TestValidateBaseURL(t *testing.T) {
 	tests := []struct {
-		name      string
-		url       string
-		expectErr bool
+		name        string
+		url         string
+		expectErr   bool
 		errContains string
 	}{
 		{
@@ -1422,9 +1422,9 @@ func TestValidationErrorCodes(t *testing.T) {
 	t.Setenv("JIRA_EMAIL", "")
 
 	tests := []struct {
-		name         string
-		config       map[string]any
-		expectedCode string
+		name          string
+		config        map[string]any
+		expectedCode  string
 		expectedField string
 	}{
 		{
@@ -1560,9 +1560,9 @@ func TestParseConfigTypeCoercion(t *testing.T) {
 
 	// Test with nil values and wrong types (should use defaults)
 	raw := map[string]any{
-		"base_url":       nil,              // nil should be ignored
-		"create_version": "not-a-bool",     // wrong type should be ignored
-		"project_key":    123,              // wrong type for string
+		"base_url":       nil,          // nil should be ignored
+		"create_version": "not-a-bool", // wrong type should be ignored
+		"project_key":    123,          // wrong type for string
 	}
 
 	cfg := p.parseConfig(raw)
@@ -1593,8 +1593,8 @@ func TestExecutePostPublishClientCreationError(t *testing.T) {
 	req := plugin.ExecuteRequest{
 		Hook: plugin.HookPostPublish,
 		Config: map[string]any{
-			"base_url":       "https://company.atlassian.net",
-			"project_key":    "PROJ",
+			"base_url":    "https://company.atlassian.net",
+			"project_key": "PROJ",
 			// No credentials provided
 			"create_version": true,
 		},
@@ -2400,9 +2400,9 @@ func TestParseConfigBooleanDefaults(t *testing.T) {
 
 	// Test with explicit false values
 	raw := map[string]any{
-		"create_version":   false,
-		"release_version":  false,
-		"associate_issues": false,
+		"create_version":    false,
+		"release_version":   false,
+		"associate_issues":  false,
 		"transition_issues": false,
 		"add_comment":       false,
 	}
@@ -3248,11 +3248,11 @@ func TestValidateAllErrors(t *testing.T) {
 
 	// Config with multiple errors
 	resp, err := p.Validate(ctx, map[string]any{
-		"base_url":          "",                   // Missing base_url
-		"project_key":       "",                   // Missing project_key
-		"issue_pattern":     "[invalid(",         // Invalid regex
-		"transition_issues": true,                 // Missing transition_name
-		"add_comment":       true,                 // Missing comment_template
+		"base_url":          "",          // Missing base_url
+		"project_key":       "",          // Missing project_key
+		"issue_pattern":     "[invalid(", // Invalid regex
+		"transition_issues": true,        // Missing transition_name
+		"add_comment":       true,        // Missing comment_template
 	})
 
 	if err != nil {
@@ -4867,10 +4867,10 @@ func TestBuildCommentWithAllVariables(t *testing.T) {
 	p := &JiraPlugin{}
 
 	tests := []struct {
-		name       string
-		template   string
-		context    plugin.ReleaseContext
-		expected   string
+		name     string
+		template string
+		context  plugin.ReleaseContext
+		expected string
 	}{
 		{
 			name:     "all_variables",
@@ -4957,10 +4957,10 @@ func TestParseConfigDefaults(t *testing.T) {
 	p := &JiraPlugin{}
 
 	tests := []struct {
-		name           string
-		input          map[string]any
-		checkField     string
-		expectedValue  any
+		name          string
+		input         map[string]any
+		checkField    string
+		expectedValue any
 	}{
 		{
 			name:          "empty_map_create_version_default",
@@ -4997,7 +4997,7 @@ func TestParseConfigDefaults(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			cfg := p.parseConfig(tt.input)
-			
+
 			switch tt.checkField {
 			case "create_version":
 				if cfg.CreateVersion != tt.expectedValue.(bool) {
@@ -5192,12 +5192,12 @@ func TestExtractIssueKeysWithCustomPattern(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := p.extractIssueKeys(tt.config, tt.changes)
-			
+
 			if len(result) != len(tt.expectedIssues) {
 				t.Errorf("got %d issues, want %d: %v", len(result), len(tt.expectedIssues), result)
 				return
 			}
-			
+
 			for i, expected := range tt.expectedIssues {
 				found := false
 				for _, got := range result {
@@ -5250,21 +5250,21 @@ func TestIsPrivateIPLinkLocalMulticast(t *testing.T) {
 // TestValidateBaseURLControlChars tests control character rejection.
 func TestValidateBaseURLControlChars(t *testing.T) {
 	tests := []struct {
-		name        string
-		url         string
-		expectError bool
+		name          string
+		url           string
+		expectError   bool
 		errorContains string
 	}{
-		{"newline_in_url", "https://company.atlassian.net\n/path", true, ""}, // may fail on parse or control char check
+		{"newline_in_url", "https://company.atlassian.net\n/path", true, ""},  // may fail on parse or control char check
 		{"carriage_return", "https://company.atlassian.net\r/path", true, ""}, // may fail on parse or control char check
-		{"tab_in_url", "https://company.atlassian.net\t/path", true, ""}, // may fail on parse or control char check
+		{"tab_in_url", "https://company.atlassian.net\t/path", true, ""},      // may fail on parse or control char check
 		{"http_non_localhost", "http://company.atlassian.net", true, "HTTPS for non-localhost"},
 		{"https_localhost", "https://localhost:8080", true, "localhost"},
 		{"https_127", "https://127.0.0.1:8080", true, "localhost"},
-		{"https_ipv6_localhost", "https://[::1]:8080", true, "private"}, // detected as private IP
-		{"metadata_aws", "https://169.254.169.254", true, "private"}, // detected as private IP before metadata check
-		{"metadata_gcp", "https://metadata.google.internal", true, ""}, // may fail on DNS or metadata check
-		{"metadata_gcp_short", "https://metadata.goog", true, ""}, // may fail on DNS or metadata check
+		{"https_ipv6_localhost", "https://[::1]:8080", true, "private"},  // detected as private IP
+		{"metadata_aws", "https://169.254.169.254", true, "private"},     // detected as private IP before metadata check
+		{"metadata_gcp", "https://metadata.google.internal", true, ""},   // may fail on DNS or metadata check
+		{"metadata_gcp_short", "https://metadata.goog", true, ""},        // may fail on DNS or metadata check
 		{"metadata_alibaba", "https://100.100.100.200", true, "private"}, // detected as private IP
 	}
 
